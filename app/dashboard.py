@@ -72,7 +72,56 @@ with st.sidebar:
 # Cache de dados
 @st.cache_data
 def carregar_dados():
-    df = pd.read_csv('data/raw/conversas.csv')
+    import os
+    from pathlib import Path
+
+    # Caminho para o arquivo de dados
+    data_path = Path('data/raw/conversas.csv')
+
+    # Se o arquivo não existir, gera os dados
+    if not data_path.exists():
+        st.info("📊 Gerando dados sintéticos pela primeira vez...")
+
+        # Criar diretórios se não existirem
+        data_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Gerar dados
+        from faker import Faker
+        import random
+
+        fake = Faker('pt_BR')
+
+        CATEGORIAS = {
+            'atraso': ['Meu pedido está atrasado', 'Quanto tempo ainda demora?', 'Pedido não chegou'],
+            'produto': ['Veio item errado', 'Faltou um produto', 'Produto veio estragado'],
+            'cancelamento': ['Quero cancelar o pedido', 'Como cancelo?', 'Pode cancelar pra mim?'],
+            'pagamento': ['Cobrado em duplicidade', 'Não consigo pagar', 'Reembolso'],
+            'duvida': ['Como funciona?', 'Qual o horário?', 'Aceita vale refeição?']
+        }
+
+        dados = []
+        for _ in range(1000):
+            categoria = random.choice(list(CATEGORIAS.keys()))
+            mensagem = random.choice(CATEGORIAS[categoria])
+
+            dados.append({
+                'id': fake.uuid4(),
+                'timestamp': fake.date_time_between(start_date='-30d', end_date='now'),
+                'usuario_id': fake.uuid4(),
+                'mensagem': mensagem,
+                'categoria': categoria,
+                'sentimento': random.choice(['positivo', 'neutro', 'negativo']),
+                'urgencia': random.choice(['baixa', 'media', 'alta']),
+                'valor_pedido': round(random.uniform(20, 150), 2),
+                'tempo_espera_min': random.randint(10, 120)
+            })
+
+        df_temp = pd.DataFrame(dados)
+        df_temp.to_csv(data_path, index=False)
+        st.success("✅ Dados gerados com sucesso!")
+
+    # Carregar dados
+    df = pd.read_csv(data_path)
     # Converter timestamp para string para evitar erros de serialização
     df['timestamp'] = pd.to_datetime(df['timestamp']).astype(str)
     return df
