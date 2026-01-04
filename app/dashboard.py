@@ -307,11 +307,11 @@ with tab3:
 
     with col_a1:
         st.subheader("📋 Amostra de Dados")
-        st.dataframe(df.head(10), width='stretch')
+        st.dataframe(df.head(10), use_container_width=True)
 
     with col_a2:
         st.subheader("📊 Estatísticas Descritivas")
-        st.dataframe(df.describe(), width='stretch')
+        st.dataframe(df.describe(), use_container_width=True)
 
     st.markdown("---")
 
