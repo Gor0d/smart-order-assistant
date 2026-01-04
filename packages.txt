@@ -1,0 +1,2 @@
+﻿# Dependências do sistema Linux (geralmente não precisa)
+# Se houver erros no deploy, adicione aqui

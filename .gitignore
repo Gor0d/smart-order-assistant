@@ -1,9 +1,38 @@
+# Ambientes virtuais
+.venv/
 venv/
+env/
+
+# Secrets
 .env
+.streamlit/secrets.toml
+
+# Python
 __pycache__/
-*.pyc
-data/raw/*
+*.py[cod]
+*$py.class
+*.so
+
+# Dados
+data/raw/*.csv
 data/processed/*
-.DS_Store
-mlruns/
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Modelos
+models/*.pkl
+!models/.gitkeep
+
+# Logs
 *.log
+mlruns/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

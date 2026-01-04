@@ -10,10 +10,15 @@ load_dotenv(dotenv_path=env_path)
 
 class CustomerSupportAgent:
     def __init__(self):
-        # Configurar cliente com a nova API
-        api_key = os.getenv('GOOGLE_API_KEY')
+        # Tenta pegar do Streamlit secrets primeiro, depois do .env
+        try:
+            import streamlit as st
+            api_key = st.secrets.get("GOOGLE_API_KEY", os.getenv('GOOGLE_API_KEY'))
+        except:
+            api_key = os.getenv('GOOGLE_API_KEY')
+
         if not api_key:
-            raise ValueError("❌ GOOGLE_API_KEY não encontrada! Configure no arquivo .env")
+            raise ValueError("❌ GOOGLE_API_KEY não encontrada! Configure no arquivo .env ou Streamlit secrets")
 
         self.client = genai.Client(api_key=api_key)
 
