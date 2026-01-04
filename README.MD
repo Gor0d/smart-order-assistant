@@ -7,7 +7,7 @@
 
 > Sistema inteligente de atendimento ao cliente para plataformas de delivery, combinando **LLMs (Gemini)** e **Machine Learning clássico** para automatizar e otimizar o suporte.
 
-![Dashboard Preview](docs/images/dashboard-preview.png)
+![Dashboard Preview](docs/images/dashboard_preview.png)
 
 ---
 
@@ -170,7 +170,7 @@ Acesse: `http://localhost:8501`
 ## 📊 Demonstração
 
 ### **Chat com Gemini**
-![Chat Demo](docs/images/chat-demo.gif)
+![Chat Demo](docs/images/chat_demo.png)
 
 ### **Análise de Métricas**
 ![Metrics Demo](docs/images/metrics-demo.png)

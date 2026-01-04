@@ -70,6 +70,7 @@ with st.sidebar:
 
 
 # Cache de dados
+# Cache de dados
 @st.cache_data
 def carregar_dados():
     import os
@@ -80,12 +81,10 @@ def carregar_dados():
 
     # Se o arquivo não existir, gera os dados
     if not data_path.exists():
-        st.info("📊 Gerando dados sintéticos pela primeira vez...")
-
         # Criar diretórios se não existirem
         data_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # Gerar dados
+        # Gerar dados (SEM mensagem - isso só roda uma vez e fica em cache)
         from faker import Faker
         import random
 
@@ -118,14 +117,12 @@ def carregar_dados():
 
         df_temp = pd.DataFrame(dados)
         df_temp.to_csv(data_path, index=False)
-        st.success("✅ Dados gerados com sucesso!")
 
     # Carregar dados
     df = pd.read_csv(data_path)
     # Converter timestamp para string para evitar erros de serialização
     df['timestamp'] = pd.to_datetime(df['timestamp']).astype(str)
     return df
-
 
 @st.cache_resource
 def carregar_modelos():
@@ -142,7 +139,6 @@ def carregar_modelos():
     return agent, clf
 
 
-# Carregar dados
 df = carregar_dados()
 
 # Tabs principais
